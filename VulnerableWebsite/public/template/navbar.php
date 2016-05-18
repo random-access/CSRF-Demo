@@ -21,9 +21,6 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
 
-                    <!-- fetch current session -->
-                    <?php session_start(); ?>
-
                     <!-- show logout link if user is logged in -->
                     <?php if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok"): ?>
                         <li><a href="logout.php">Logout</a></li>

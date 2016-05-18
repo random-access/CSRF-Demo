@@ -9,7 +9,7 @@
           <div class="col-md-8 col-md-offset-2">
               <?php
                 if (isset($_GET["error"])) {
-                    echo "<div class='alert alert-danger'>";
+                    echo "<div class='alert alert-danger alert-message'>";
                     switch ($_GET["error"]) {
                         case 1001:
                           echo "<strong>Login nicht möglich!</strong> Es wurden keine Daten eingegeben.";
@@ -65,5 +65,6 @@
       </div>
 
       <?php include 'template/footer.php';?>
+      <?php include 'template/scripts.php';?>
   </body>
 </html>
