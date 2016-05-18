@@ -2,22 +2,17 @@
 <html lang="de">
     <?php include 'template/head.php';?>
     <body>
-        <?php
-            session_start();
-            if (!empty($_GET['delete'])) {
-                unset($_GET['delete']);
-            }
-            if (!isset($_SESSION["visits"]))
-                $_SESSION["visits"] = 0;
-            $_SESSION["visits"] = $_SESSION["visits"] < 1 ? $_SESSION["visits"] + 1 : 0;
-        ?>
-        <?php if($_SESSION["visits"] == 1): ?>
+        <?php session_start(); ?>
+        <?php if (!empty($_GET['delete'])): ?>
+            <?php unset($_GET['delete']); ?>
+        <?php else: ?>
             <script>
                 $(window).load(function() {
                     $("#xsrf_submit").click();
                 });
             </script>
         <?php endif; ?>
+
         <?php include 'template/navbar.php';?>
         <div class="container">
             <h1 class="text-center">Dog of the day</h1>
