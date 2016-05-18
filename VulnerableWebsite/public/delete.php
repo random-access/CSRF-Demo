@@ -13,7 +13,7 @@
 
     // if there are no pics yet, nothing to delete
     if (!file_exists($target_dir)) {
-        header("Location: welcome.php?error=3001");
+        header("Location: dashboard.php?error=3001");
         return;
     }
 
@@ -21,7 +21,7 @@
     recursive_rm($target_dir);
 
     // redirect to main page
-    header("Location: welcome.php?delete=1");
+    header("Location: dashboard.php?delete=1");
 
     // function for recursively deleting directory + content
     function recursive_rm ($dir) {

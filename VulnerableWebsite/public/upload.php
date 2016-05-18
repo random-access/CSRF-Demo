@@ -22,32 +22,32 @@
     if(isset($_POST["submit"])) {
         $check = getimagesize($_FILES['file-input']['tmp_name']);
         if($check === false) {
-            header("Location: welcome.php?error=2001");
+            header("Location: dashboard.php?error=2001");
             return;
         }
         // Check if file already exists
         if (file_exists($target_file)) {
-            header("Location: welcome.php?error=2002");
+            header("Location: dashboard.php?error=2002");
             return;
         }
         // Check file size
         if ($_FILES["fileToUpload"]["size"] > 2000000) {
-            header("Location: welcome.php?error=2003");
+            header("Location: dashboard.php?error=2003");
             return;
         }
         // Allow only certain image formats
         if($imageFileType != "jpg" && $imageFileType != "jpeg" && $imageFileType != "png"
               && $imageFileType != "gif" ) {
-            header("Location: welcome.php?error=2004");
+            header("Location: dashboard.php?error=2004");
             return;
         }
 
         // Try to upload image
         if (move_uploaded_file($_FILES['file-input']['tmp_name'], $target_file)) {
-            header("Location: welcome.php?upload=1");
+            header("Location: dashboard.php?upload=1");
             return;
         } else {
-            header("Location: welcome.php?error=2005");
+            header("Location: dashboard.php?error=2005");
             return;
         }
     }

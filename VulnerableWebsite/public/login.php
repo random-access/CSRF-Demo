@@ -32,7 +32,7 @@
       // correct password - redirect to welcome.php
       $_SESSION["user"] = $user;
       $_SESSION["login"] = "ok";
-      header("Location: welcome.php");
+      header("Location: dashboard.php");
     } else {
       // wrong password
       header("Location: index.php?error=1003");
