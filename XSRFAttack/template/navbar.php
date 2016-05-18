@@ -20,8 +20,10 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="index.php">XSRF with user input</a></li>
-                <li><a href="index2.php">XSRF on page load</a></li>
+                <li><a href="index.php">delete cats (interactive)</a></li>
+                <li><a href="index2.php">delete cats (non-interactive)</a></li>
+                <li><a href="index3.php">change password (interactive)</a></li>
+                <li><a href="index4.php">change password (non-interactive)</a></li>
             </ul>
         </div>
     </div>

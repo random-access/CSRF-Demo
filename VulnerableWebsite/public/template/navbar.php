@@ -23,6 +23,7 @@
 
                     <!-- show logout link if user is logged in -->
                     <?php if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok"): ?>
+                        <li><a href="edit-profile.php">Profil bearbeiten</a></li>
                         <li><a href="logout.php">Logout</a></li>
                     <?php endif; ?>
                 </ul>
