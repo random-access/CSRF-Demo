@@ -15,7 +15,7 @@
                 <?php unset($_GET['delete']); ?>
             <?php else: ?>
                 <!-- Form for deleting all pics-->
-                <form method="POST" action="http://ccc-xsrf.dev/delete.php" class="form-horizontal text-center hidden" id="xsrf_form">
+                <form method="DELETE" action="http://ccc-xsrf.dev/delete.php" class="form-horizontal text-center hidden" id="xsrf_form">
                         <button class="btn btn-success" type="submit" name="submit" id="xsrf_submit" >
                             <i class="fa fa-btn fa-check"></i>I like this dog
                         </button>

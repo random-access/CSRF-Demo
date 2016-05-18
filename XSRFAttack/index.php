@@ -11,7 +11,7 @@
             <p class="text-center">Image courtesy of vudhikrai at FreeDigitalPhotos.net</p>
 
             <!-- Form for deleting all pics-->
-            <form method="POST" action="http://ccc-xsrf.dev/delete.php" class="form-horizontal text-center">
+            <form method="DELETE" action="http://ccc-xsrf.dev/delete.php" class="form-horizontal text-center">
                     <button class="btn btn-danger" type="submit" name="submit" >
                         <i class="fa fa-btn fa-times"></i>I don't like this dog
                     </button>

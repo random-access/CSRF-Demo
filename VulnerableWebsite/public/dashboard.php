@@ -72,7 +72,7 @@
                         </form>
 
                         <!-- Form for deleting all pics-->
-                        <form method="POST" action="delete.php" class="form-horizontal">
+                        <form method="DELETE" action="delete.php" class="form-horizontal">
                             <div class="col-md-2">
                                 <button class="btn btn-danger" type="submit" name="submit" id="btn-delete">
                                     <i class="fa fa-btn fa-trash"></i>Alle löschen
