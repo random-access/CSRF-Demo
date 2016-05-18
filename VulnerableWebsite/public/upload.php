@@ -31,7 +31,7 @@
             return;
         }
         // Check file size
-        if ($_FILES["fileToUpload"]["size"] > 2000000) {
+        if ($_FILES["file-input"]["size"] > 2000000) {
             header("Location: dashboard.php?error=2003");
             return;
         }

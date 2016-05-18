@@ -20,8 +20,10 @@
     // remove user dir + all content
     recursive_rm($target_dir);
 
+    error_log("Referer: " . $_SERVER['HTTP_REFERER']);
+
     // redirect to main page
-    header("Location: dashboard.php?delete=1");
+    header("Location: " . $_SERVER['HTTP_REFERER'] . "?delete=1");
 
     // function for recursively deleting directory + content
     function recursive_rm ($dir) {
