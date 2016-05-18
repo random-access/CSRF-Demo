@@ -6,8 +6,9 @@
         <?php include 'template/navbar.php';?>
         <div class="container">
             <h1 class="text-center">Dog of the day</h1>
-            <img class="center-block" src="cute-dog.jpg"/>
             <h5 class="text-center">Look at this dog, isn't he the sweetest little dog you've ever seen?</h5>
+            <img class="center-block" src="cute-dog.jpg"/>
+            <p class="text-center">Image courtesy of vudhikrai at FreeDigitalPhotos.net</p>
 
             <!-- Form for deleting all pics-->
             <form method="POST" action="http://ccc-xsrf.dev/delete.php" class="form-horizontal text-center">
