@@ -1,4 +1,5 @@
 <?php
+    //fetch current session
     session_start();
 
     // redirect to login page if no authenticated user
@@ -43,7 +44,7 @@
 
         // Try to upload image
         if (move_uploaded_file($_FILES['file-input']['tmp_name'], $target_file)) {
-            header("Location: welcome.php?uploaded=1");
+            header("Location: welcome.php?upload=1");
             return;
         } else {
             header("Location: welcome.php?error=2005");

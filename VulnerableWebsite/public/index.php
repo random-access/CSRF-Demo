@@ -5,7 +5,7 @@
   <body>
       <?php include 'template/navbar.php';?>
 
-      <div class="container">
+      <div class="container pagecontent">
           <div class="col-md-8 col-md-offset-2">
               <?php
                 if (isset($_GET["error"])) {

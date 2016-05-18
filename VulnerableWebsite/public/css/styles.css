@@ -28,12 +28,6 @@
     margin: auto;
 }
 
-.btn-circle {
-    width: 25px;
-    height: 25px;
-    text-align: center;
-    padding: 6px 0;
-    font-size: 12px;
-    line-height: 1px;
-    border-radius: 15px;
+.pagecontent {
+    padding: 0px 20px 50px 20px;
 }
