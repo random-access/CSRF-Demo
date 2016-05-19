@@ -22,7 +22,7 @@
     }
 
     // test if password matches with pw confirmation
-    if ($password !== $password_confirmation) {
+    if (! $password === $password_confirmation) {
         header("Location: " . $_SERVER['HTTP_REFERER']  . "?error=4002");
         return;
     }

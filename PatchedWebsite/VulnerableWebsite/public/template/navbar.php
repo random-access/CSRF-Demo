@@ -12,7 +12,7 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="/dashboard.php">
+                <a class="navbar-brand" href="/index.php">
                     Cute Cat Collection
                 </a>
             </div>
