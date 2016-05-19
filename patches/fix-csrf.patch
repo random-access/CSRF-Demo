@@ -2,7 +2,7 @@ diff -Naur src-vuln/public/dashboard.php src-fixed/public/dashboard.php
 --- src-vuln/public/dashboard.php	2016-05-19 15:01:55.482603246 +0200
 +++ src-fixed/public/dashboard.php	2016-05-19 15:01:39.334469383 +0200
 @@ -28,6 +28,7 @@
-
+ 
                          <!-- Form for uploading pics -->
                          <form action="upload.php" method="POST" enctype="multipart/form-data">
 +                            <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
@@ -10,7 +10,7 @@ diff -Naur src-vuln/public/dashboard.php src-fixed/public/dashboard.php
                                  <label class="button control-label" style="height:1em">
                                      <span class="btn btn-default btn-file">
 @@ -46,6 +47,7 @@
-
+ 
                          <!-- Form for deleting all pics-->
                          <form method="POST" action="delete.php" class="form-horizontal">
 +                            <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
@@ -23,7 +23,7 @@ diff -Naur src-vuln/public/delete.php src-fixed/public/delete.php
 @@ -1,6 +1,15 @@
  <?php
      require("authenticate.php");
-
+ 
 +    session_start();
 +
 +    // test if CSRF token is valid, redirect to login page if not
@@ -35,7 +35,7 @@ diff -Naur src-vuln/public/delete.php src-fixed/public/delete.php
 +
      // get user dir
      $target_dir ="uploads/" . $_SESSION["user"];
-
+ 
 diff -Naur src-vuln/public/edit-profile.php src-fixed/public/edit-profile.php
 --- src-vuln/public/edit-profile.php	2016-05-19 13:58:33.595078122 +0200
 +++ src-fixed/public/edit-profile.php	2016-05-19 14:28:33.813984121 +0200
@@ -43,7 +43,7 @@ diff -Naur src-vuln/public/edit-profile.php src-fixed/public/edit-profile.php
                        print Message::success_update();
                    }
                  ?>
--
+-                
 +
                  <div class="panel panel-default">
                      <div class="panel-heading">
@@ -60,7 +60,7 @@ diff -Naur src-vuln/public/login.php src-fixed/public/login.php
 --- src-vuln/public/login.php	2016-05-19 14:44:32.161951768 +0200
 +++ src-fixed/public/login.php	2016-05-19 14:44:18.313836866 +0200
 @@ -32,6 +32,10 @@
-
+ 
      // verify password
      if ($query->fetch() && password_verify($password, $hash)) {
 +      // generate CSRF token and add it to session
@@ -80,7 +80,7 @@ diff -Naur src-vuln/public/Message.php src-fixed/public/Message.php
 +                case 1004:
 +                  $msg .= "<strong>Unautorisierter Zugriff!</strong> Ungültiges Token. Möglicherweise ist die vorherige Seite manipuliert worden.";
 +                  break;
-
+ 
                  /* Error messages for upload */
                  case 2001:
 diff -Naur src-vuln/public/update-profile.php src-fixed/public/update-profile.php
@@ -89,7 +89,7 @@ diff -Naur src-vuln/public/update-profile.php src-fixed/public/update-profile.ph
 @@ -2,6 +2,13 @@
      require("../config.php");
      require("authenticate.php");
-
+ 
 +    // test if CSRF token is valid, redirect to login page if not
 +    if (!isset($_POST["csrf_token"]) || $_POST["csrf_token"] !== $_SESSION["csrf_token"]) {
 +        error_log("CSRF token not matching");
@@ -106,7 +106,7 @@ diff -Naur src-vuln/public/upload.php src-fixed/public/upload.php
 @@ -1,6 +1,13 @@
  <?php
      require("authenticate.php");
-
+ 
 +    // test if CSRF token is valid, redirect to login page if not
 +    if (!isset($_POST["csrf_token"]) || $_POST["csrf_token"] !== $_SESSION["csrf_token"]) {
 +        error_log("CSRF token not matching");
