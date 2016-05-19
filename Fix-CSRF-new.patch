@@ -1,0 +1,119 @@
+diff -Naur VulnerableWebsite/public/dashboard.php PatchedWebsite/public/dashboard.php
+--- VulnerableWebsite/public/dashboard.php	2016-05-19 13:29:52.516859679 +0200
++++ PatchedWebsite/public/dashboard.php	2016-05-19 14:33:14.416322040 +0200
+@@ -28,6 +28,7 @@
+ 
+                         <!-- Form for uploading pics -->
+                         <form action="upload.php" method="POST" enctype="multipart/form-data">
++                            <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
+                             <div class="col-md-6">
+                                 <label class="button control-label" style="height:1em">
+                                     <span class="btn btn-default btn-file">
+@@ -46,6 +47,7 @@
+ 
+                         <!-- Form for deleting all pics-->
+                         <form method="DELETE" action="delete.php" class="form-horizontal">
++                            <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
+                             <div class="col-md-2">
+                                 <button class="btn btn-danger" type="submit" name="submit" id="btn-delete">
+                                     <i class="fa fa-btn fa-trash"></i>Alle löschen
+diff -Naur VulnerableWebsite/public/delete.php PatchedWebsite/public/delete.php
+--- VulnerableWebsite/public/delete.php	2016-05-19 13:29:35.840721510 +0200
++++ PatchedWebsite/public/delete.php	2016-05-19 14:24:31.643959485 +0200
+@@ -1,6 +1,15 @@
+ <?php
+     require("authenticate.php");
+ 
++    session_start();
++
++    // test if CSRF token is valid, redirect to login page if not
++    if (!isset($_DELETE["csrf_token"]) || $_DELETE["csrf_token"] !== $_SESSION["csrf_token"]) {
++        error_log("CSRF token not matching");
++        header("Location: index.php?error=1004");
++        exit;
++    }
++
+     // get user dir
+     $target_dir ="uploads/" . $_SESSION["user"];
+ 
+diff -Naur VulnerableWebsite/public/edit-profile.php PatchedWebsite/public/edit-profile.php
+--- VulnerableWebsite/public/edit-profile.php	2016-05-19 13:58:33.595078122 +0200
++++ PatchedWebsite/public/edit-profile.php	2016-05-19 14:28:33.813984121 +0200
+@@ -19,7 +19,7 @@
+                       print Message::success_update();
+                   }
+                 ?>
+-                
++
+                 <div class="panel panel-default">
+                     <div class="panel-heading">
+                        Profil bearbeiten
+@@ -27,6 +27,7 @@
+                     <div class="panel-body">
+                         <div class="form-group row">
+                             <form method="POST" action="update-profile.php" class="form-horizontal">
++                                <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
+                                 <div class="form-group row">
+                                     <div class="col-md-3 col-md-offset-1">
+                                         <label class="control-label">Neues Passwort</label>
+diff -Naur VulnerableWebsite/public/login.php PatchedWebsite/public/login.php
+--- VulnerableWebsite/public/login.php	2016-05-19 12:50:46.672505062 +0200
++++ PatchedWebsite/public/login.php	2016-05-19 14:05:28.158498947 +0200
+@@ -29,6 +29,10 @@
+ 
+     // verify password
+     if ($query->fetch() && password_verify($password, $hash)) {
++      // generate CSRF token and add it to session
++      $csrf_token = base64_encode(openssl_random_pseudo_bytes(32));
++      $_SESSION['csrf_token']=$csrf_token;
++
+       // correct password - redirect to welcome.php
+       $_SESSION["user"] = $user;
+       $_SESSION["login"] = "ok";
+diff -Naur VulnerableWebsite/public/Message.php PatchedWebsite/public/Message.php
+--- VulnerableWebsite/public/Message.php	2016-05-19 13:51:13.503456401 +0200
++++ PatchedWebsite/public/Message.php	2016-05-19 13:51:24.223544423 +0200
+@@ -15,6 +15,9 @@
+                 case 1003:
+                   $msg .= "<strong>Login nicht möglich!</strong> Benutzername unbekannt oder Passwort nicht korrekt.";
+                   break;
++                case 1004:
++                  $msg .= "<strong>Unautorisierter Zugriff!</strong> Ungültiges Token. Möglicherweise ist die vorherige Seite manipuliert worden.";
++                  break;
+ 
+                 /* Error messages for upload */
+                 case 2001:
+diff -Naur VulnerableWebsite/public/update-profile.php PatchedWebsite/public/update-profile.php
+--- VulnerableWebsite/public/update-profile.php	2016-05-19 13:27:14.163547471 +0200
++++ PatchedWebsite/public/update-profile.php	2016-05-19 13:57:25.882520023 +0200
+@@ -2,6 +2,13 @@
+     require("../config.php");
+     require("authenticate.php");
+ 
++    // test if CSRF token is valid, redirect to login page if not
++    if (!isset($_POST["csrf_token"]) || $_POST["csrf_token"] !== $_SESSION["csrf_token"]) {
++        error_log("CSRF token not matching");
++        header("Location: index.php?error=1004");
++        exit;
++    }
++
+     // fetch user and password data
+     $user = $_SESSION["user"];
+     $password = $_POST["password"];
+diff -Naur VulnerableWebsite/public/upload.php PatchedWebsite/public/upload.php
+--- VulnerableWebsite/public/upload.php	2016-05-19 13:28:18.000076508 +0200
++++ PatchedWebsite/public/upload.php	2016-05-19 14:33:21.796383449 +0200
+@@ -1,6 +1,13 @@
+ <?php
+     require("authenticate.php");
+ 
++    // test if CSRF token is valid, redirect to login page if not
++    if (!isset($_POST["csrf_token"]) || $_POST["csrf_token"] !== $_SESSION["csrf_token"]) {
++        error_log("CSRF token not matching");
++        header("Location: index.php?error=1004");
++        exit;
++    }
++
+     // create upload folder (uploads/[username]) if not existing
+     $target_dir = "uploads/" . $_SESSION["user"];
+     if (!file_exists($target_dir)) {

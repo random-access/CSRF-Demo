@@ -1,6 +1,13 @@
 <?php
     require("authenticate.php");
 
+    // test if CSRF token is valid, redirect to login page if not
+    if (!isset($_POST["csrf_token"]) || $_POST["csrf_token"] !== $_SESSION["csrf_token"]) {
+        error_log("CSRF token not matching");
+        header("Location: index.php?error=1004");
+        exit;
+    }
+
     // create upload folder (uploads/[username]) if not existing
     $target_dir = "uploads/" . $_SESSION["user"];
     if (!file_exists($target_dir)) {

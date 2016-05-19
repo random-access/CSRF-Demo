@@ -1,6 +1,15 @@
 <?php
     require("authenticate.php");
 
+    session_start();
+
+    // test if CSRF token is valid, redirect to login page if not
+    if (!isset($_DELETE["csrf_token"]) || $_DELETE["csrf_token"] !== $_SESSION["csrf_token"]) {
+        error_log("CSRF token not matching");
+        header("Location: index.php?error=1004");
+        exit;
+    }
+
     // get user dir
     $target_dir ="uploads/" . $_SESSION["user"];
 

@@ -29,6 +29,10 @@
 
     // verify password
     if ($query->fetch() && password_verify($password, $hash)) {
+      // generate CSRF token and add it to session
+      $csrf_token = base64_encode(openssl_random_pseudo_bytes(32));
+      $_SESSION['csrf_token']=$csrf_token;
+
       // correct password - redirect to welcome.php
       $_SESSION["user"] = $user;
       $_SESSION["login"] = "ok";

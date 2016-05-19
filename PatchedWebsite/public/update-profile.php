@@ -2,6 +2,13 @@
     require("../config.php");
     require("authenticate.php");
 
+    // test if CSRF token is valid, redirect to login page if not
+    if (!isset($_POST["csrf_token"]) || $_POST["csrf_token"] !== $_SESSION["csrf_token"]) {
+        error_log("CSRF token not matching");
+        header("Location: index.php?error=1004");
+        exit;
+    }
+
     // fetch user and password data
     $user = $_SESSION["user"];
     $password = $_POST["password"];

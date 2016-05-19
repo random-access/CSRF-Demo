@@ -19,7 +19,7 @@
                       print Message::success_update();
                   }
                 ?>
-                
+
                 <div class="panel panel-default">
                     <div class="panel-heading">
                        Profil bearbeiten
@@ -27,6 +27,7 @@
                     <div class="panel-body">
                         <div class="form-group row">
                             <form method="POST" action="update-profile.php" class="form-horizontal">
+                                <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
                                 <div class="form-group row">
                                     <div class="col-md-3 col-md-offset-1">
                                         <label class="control-label">Neues Passwort</label>

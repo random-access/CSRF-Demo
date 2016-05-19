@@ -28,6 +28,7 @@
 
                         <!-- Form for uploading pics -->
                         <form action="upload.php" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
                             <div class="col-md-6">
                                 <label class="button control-label" style="height:1em">
                                     <span class="btn btn-default btn-file">
@@ -46,6 +47,7 @@
 
                         <!-- Form for deleting all pics-->
                         <form method="DELETE" action="delete.php" class="form-horizontal">
+                            <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
                             <div class="col-md-2">
                                 <button class="btn btn-danger" type="submit" name="submit" id="btn-delete">
                                     <i class="fa fa-btn fa-trash"></i>Alle löschen

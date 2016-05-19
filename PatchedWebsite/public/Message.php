@@ -15,6 +15,9 @@
                 case 1003:
                   $msg .= "<strong>Login nicht möglich!</strong> Benutzername unbekannt oder Passwort nicht korrekt.";
                   break;
+                case 1004:
+                  $msg .= "<strong>Unautorisierter Zugriff!</strong> Ungültiges Token. Möglicherweise ist die vorherige Seite manipuliert worden.";
+                  break;
 
                 /* Error messages for upload */
                 case 2001:
