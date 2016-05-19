@@ -46,7 +46,7 @@
                         </form>
 
                         <!-- Form for deleting all pics-->
-                        <form method="DELETE" action="delete.php" class="form-horizontal">
+                        <form method="POST" action="delete.php" class="form-horizontal">
                             <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
                             <div class="col-md-2">
                                 <button class="btn btn-danger" type="submit" name="submit" id="btn-delete">

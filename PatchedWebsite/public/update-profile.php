@@ -29,6 +29,9 @@
     // hash password
     $password_hashed = password_hash($password, PASSWORD_BCRYPT);
 
+    // Create DB connection
+    $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+
     // prepare statement for fetching password
     $query = $conn->prepare("UPDATE users SET password = ? WHERE user = ?");
 

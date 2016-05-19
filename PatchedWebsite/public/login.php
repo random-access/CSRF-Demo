@@ -13,6 +13,9 @@
     $user = $_POST["user"];
     $password = $_POST["password"];
 
+    // Create DB connection
+    $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+
     // prepare statement for fetching password
     $query = $conn->prepare("SELECT password FROM users WHERE user = ?");
 

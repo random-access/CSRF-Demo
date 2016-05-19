@@ -3,5 +3,4 @@
    define('DB_USERNAME', 'insert username');
    define('DB_PASSWORD', 'insert password');
    define('DB_DATABASE', 'insert database name');
-   $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 ?>
