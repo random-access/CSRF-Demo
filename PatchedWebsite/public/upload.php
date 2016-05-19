@@ -1,18 +1,5 @@
 <?php
-    //fetch current session
-    session_start();
-
-    // redirect to login page if no authenticated user
-    if (!(isset($_SESSION["login"]) && $_SESSION["login"] == "ok")) {
-        header("Location: index.php");
-        return;
-    }
-
-    if (!isset($_POST["csrf_token"]) || $_POST["csrf_token"] !== $_SESSION["csrf_token"]) {
-        error_log("CSRF token not matching");
-        header("Location: index.php?error=1004");
-        return;
-    }
+    require("authenticate.php");
 
     // create upload folder (uploads/[username]) if not existing
     $target_dir = "uploads/" . $_SESSION["user"];

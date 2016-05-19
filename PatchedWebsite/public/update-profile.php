@@ -1,20 +1,6 @@
 <?php
     require("../config.php");
-
-    // fetch current session
-    session_start();
-
-    // redirect to login page if no authenticated user
-    if (!(isset($_SESSION["login"]) && $_SESSION["login"] == "ok")) {
-        header("Location: index.php");
-        return;
-    }
-
-    if (!isset($_POST["csrf_token"]) || $_POST["csrf_token"] !== $_SESSION["csrf_token"]) {
-        error_log("CSRF token not matching");
-        header("Location: index.php?error=1004");
-        return;
-    }
+    require("authenticate.php");
 
     // fetch user and password data
     $user = $_SESSION["user"];
@@ -24,13 +10,13 @@
     // test if string has at least 8 chars
     if (strlen($password) < 8) {
         header("Location: " . $_SERVER['HTTP_REFERER']  . "?error=4001");
-        return;
+        exit;
     }
 
     // test if password matches with pw confirmation
     if ($password !== $password_confirmation) {
         header("Location: " . $_SERVER['HTTP_REFERER']  . "?error=4002");
-        return;
+        exit;
     }
 
     // hash password
@@ -42,17 +28,15 @@
     // database connection isn't working
     if (!$query) {
         header("Location: " . $_SERVER['HTTP_REFERER']  . "?error=4003");
-        return;
+        exit;
     }
 
     // execute password query & test if successful
     $query->bind_param("ss", $password_hashed, $user);
     if ($query->execute()) {
         header("Location: " . $_SERVER['HTTP_REFERER']  . "?update=1");
-        return;
     } else {
         header("Location: " . $_SERVER['HTTP_REFERER']  . "?error=4003");
-        return;
     }
 
 ?>

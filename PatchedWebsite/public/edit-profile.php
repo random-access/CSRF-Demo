@@ -1,44 +1,25 @@
 <!DOCTYPE html>
 <html lang="de">
+    <?php require("authenticate.php");?>
     <?php include 'template/head.php';?>
 
     <body>
-        <?php
-          // fetch current session
-          session_start();
-
-          // redirect to login page if no authenticated user
-          if (!(isset($_SESSION["login"]) && $_SESSION["login"] == "ok")) {
-              header("Location: index.php");
-              return;
-          }
-        ?>
         <?php include 'template/navbar.php';?>
 
         <!-- Content of page -->
         <div class="container pagecontent">
-            <?php
-              if (isset($_GET["error"])) {
-                  echo "<div class='alert alert-danger alert-message'>";
-                  switch ($_GET["error"]) {
-                      case 4001:
-                        echo "<strong>Fehler!</strong> Passwort muss mindestens 8 Stellen haben.";
-                        break;
-                      case 4002:
-                        echo "<strong>Fehler!</strong> Passwort und Passwort-Bestätigung stimmen nicht überein.";
-                        break;
-                      case 4003:
-                        echo "Ein interner Fehler ist aufgetreten.";
-                        break;
-                      default:
-                        echo "Es ist ein unbekannter Fehler aufgetreten.";
-                  }
-                  echo "</div>";
-              } else if (isset($_GET["update"])) {
-                  echo "<div class='alert alert-success alert-message'>Passwort wurde erfolgreich geändert!</div>";
-              }
-            ?>
             <div class="col-md-8 col-md-offset-2">
+
+                <?php
+                  // Output error / success messages
+                  require_once "Message.php";
+                  if (isset($_GET["error"])) {
+                      print Message::forError($_GET["error"]);
+                  } else if (isset($_GET["update"])) {
+                      print Message::success_update();
+                  }
+                ?>
+                
                 <div class="panel panel-default">
                     <div class="panel-heading">
                        Profil bearbeiten
@@ -46,7 +27,6 @@
                     <div class="panel-body">
                         <div class="form-group row">
                             <form method="POST" action="update-profile.php" class="form-horizontal">
-                                <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?>/>
                                 <div class="form-group row">
                                     <div class="col-md-3 col-md-offset-1">
                                         <label class="control-label">Neues Passwort</label>

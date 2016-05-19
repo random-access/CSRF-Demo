@@ -35,6 +35,17 @@
                   $msg .= "<strong>Löschen nicht möglich!</strong> Es wurden noch keine Bilddateien hochgeladen.";
                   break;
 
+                /* Error messages for changing password */
+                case 4001:
+                  $msg .= "<strong>Passwort ändern nicht möglich!</strong> Passwort muss mindestens 8 Stellen haben.";
+                  break;
+                case 4002:
+                  $msg .= "<strong>Passwort ändern nicht möglich!</strong> Passwort und Passwort-Bestätigung stimmen nicht überein.";
+                  break;
+                case 4003:
+                  $msg .= "<strong>Passwort ändern nicht möglich!</strong> Es ist ein interner Fehler aufgetreten.";
+                  break;
+
                 /* Default error message for unknown error code */
                 default:
                   $msg .= "<strong>Aktion konnte nicht durchgeführt werden!</strong> Es ist ein unbekannter Fehler aufgetreten.";
@@ -49,6 +60,10 @@
 
         public static function success_delete() {
             return "<div class='alert alert-success alert-message'>Alle Bilder wurden erfolgreich gelöscht!</div>";
+        }
+
+        public static function success_update() {
+            return "<div class='alert alert-success alert-message'>Passwort wurde erfolgreich geändert!</div>";
         }
     }
 
