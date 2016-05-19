@@ -36,9 +36,11 @@
       // correct password - redirect to welcome.php
       $_SESSION["user"] = $user;
       $_SESSION["login"] = "ok";
+      $conn->close();
       header("Location: dashboard.php");
     } else {
       // wrong password
+      $conn->close();
       header("Location: index.php?error=1003");
     }
 

@@ -57,8 +57,8 @@ diff -Naur VulnerableWebsite/public/edit-profile.php PatchedWebsite/public/edit-
                                      <div class="col-md-3 col-md-offset-1">
                                          <label class="control-label">Neues Passwort</label>
 diff -Naur VulnerableWebsite/public/login.php PatchedWebsite/public/login.php
---- VulnerableWebsite/public/login.php	2016-05-19 12:50:46.672505062 +0200
-+++ PatchedWebsite/public/login.php	2016-05-19 14:05:28.158498947 +0200
+--- VulnerableWebsite/public/login.php	2016-05-19 14:37:47.106589111 +0200
++++ PatchedWebsite/public/login.php	2016-05-19 14:37:55.690660423 +0200
 @@ -29,6 +29,10 @@
  
      // verify password
@@ -84,8 +84,8 @@ diff -Naur VulnerableWebsite/public/Message.php PatchedWebsite/public/Message.ph
                  /* Error messages for upload */
                  case 2001:
 diff -Naur VulnerableWebsite/public/update-profile.php PatchedWebsite/public/update-profile.php
---- VulnerableWebsite/public/update-profile.php	2016-05-19 13:27:14.163547471 +0200
-+++ PatchedWebsite/public/update-profile.php	2016-05-19 13:57:25.882520023 +0200
+--- VulnerableWebsite/public/update-profile.php	2016-05-19 14:37:19.226357478 +0200
++++ PatchedWebsite/public/update-profile.php	2016-05-19 14:37:23.134389950 +0200
 @@ -2,6 +2,13 @@
      require("../config.php");
      require("authenticate.php");

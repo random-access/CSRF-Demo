@@ -41,8 +41,10 @@
     // execute password query & test if successful
     $query->bind_param("ss", $password_hashed, $user);
     if ($query->execute()) {
+        $conn->close();
         header("Location: " . $_SERVER['HTTP_REFERER']  . "?update=1");
     } else {
+        $conn->close();
         header("Location: " . $_SERVER['HTTP_REFERER']  . "?error=4003");
     }
 
