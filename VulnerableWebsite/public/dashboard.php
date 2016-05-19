@@ -9,7 +9,7 @@
 
           // redirect to login page if no authenticated user
           if (!(isset($_SESSION["login"]) && $_SESSION["login"] == "ok")) {
-              header("Location: index.php");
+              header("Location: " . $_SERVER['HTTP_REFERER']);
               return;
           }
         ?>
@@ -54,7 +54,7 @@
                     <div class="form-group row">
 
                         <!-- Form for uploading pics -->
-                        <form action="upload.php" method="post" enctype="multipart/form-data">
+                        <form action="upload.php" method="POST" enctype="multipart/form-data">
                             <div class="col-md-6">
                                 <label class="button control-label" style="height:1em">
                                     <span class="btn btn-default btn-file">
