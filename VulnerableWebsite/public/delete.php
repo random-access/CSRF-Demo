@@ -1,12 +1,5 @@
 <?php
-    // fetch current session
-    session_start();
-
-    // redirect to login page if no authenticated user
-    if (!(isset($_SESSION["login"]) && $_SESSION["login"] == "ok")) {
-        header("Location: index.php");
-        return;
-    }
+    require("authenticate.php");
 
     // get user dir
     $target_dir ="uploads/" . $_SESSION["user"];
@@ -20,9 +13,8 @@
     // remove user dir + all content
     recursive_rm($target_dir);
 
-    error_log("Referer: " . $_SERVER['HTTP_REFERER']);
-
     // redirect to main page
+    if (isset($_SERVER))
     header("Location: " . $_SERVER['HTTP_REFERER'] . "?delete=1");
 
     // function for recursively deleting directory + content

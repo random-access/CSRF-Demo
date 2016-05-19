@@ -8,22 +8,10 @@
       <div class="container pagecontent">
           <div class="col-md-8 col-md-offset-2">
               <?php
+                // output error messages
+                require_once "Message.php";
                 if (isset($_GET["error"])) {
-                    echo "<div class='alert alert-danger alert-message'>";
-                    switch ($_GET["error"]) {
-                        case 1001:
-                          echo "<strong>Login nicht möglich!</strong> Es wurden keine Daten eingegeben.";
-                          break;
-                        case 1002:
-                          echo "<strong>Login nicht möglich!</strong> Ein interner Fehler ist aufgetreten.";
-                          break;
-                        case 1003:
-                          echo "<strong>Login nicht möglich!</strong> Benutzername unbekannt oder Passwort nicht korrekt.";
-                          break;
-                        default:
-                          echo "<strong>Login nicht möglich</strong> Es ist ein unbekannter Fehler aufgetreten.";
-                    }
-                    echo "</div>";
+                    print Message::forError($_GET["error"]);
                 }
               ?>
               <div class="panel panel-default">

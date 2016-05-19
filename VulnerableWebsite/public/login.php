@@ -7,7 +7,7 @@
     // either password or user field was empty
     if (empty($_POST["user"]) && empty($_POST["password"])) {
         header("Location: index.php?error=1001");
-        return;
+        exit;
     }
 
     $user = $_POST["user"];
@@ -19,7 +19,7 @@
     // database connection isn't working
     if (!$query) {
         header("Location: index.php?error=1002");
-        return;
+        exit;
     }
 
     // execute password query
@@ -36,7 +36,6 @@
     } else {
       // wrong password
       header("Location: index.php?error=1003");
-      return;
     }
 
  ?>

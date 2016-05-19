@@ -1,49 +1,22 @@
 <!DOCTYPE html>
 <html lang="de">
+    <?php require("authenticate.php");?>
     <?php include 'template/head.php';?>
 
     <body>
-        <?php
-          // fetch current session
-          session_start();
-
-          // redirect to login page if no authenticated user
-          if (!(isset($_SESSION["login"]) && $_SESSION["login"] == "ok")) {
-              header("Location: " . $_SERVER['HTTP_REFERER']);
-              return;
-          }
-        ?>
         <?php include 'template/navbar.php';?>
 
         <!-- Content of page -->
         <div class="container pagecontent">
             <?php
+              // Output error / success messages
+              require_once "Message.php";
               if (isset($_GET["error"])) {
-                  echo "<div class='alert alert-danger alert-message'>";
-                  switch ($_GET["error"]) {
-                      case 2001:
-                        echo "<strong>Upload nicht möglich!</strong> Die angegebene Datei ist keine Bilddatei.";
-                        break;
-                      case 2002:
-                        echo "<strong>Upload nicht möglich!</strong> Datei existiert bereits am Server.";
-                        break;
-                      case 2003:
-                        echo "<strong>Upload nicht möglich!</strong> Die maximale Dateigröße von 2 MB wurde überschritten.";
-                        break;
-                      case 2004:
-                        echo "<strong>Upload nicht möglich!</strong> Unerlaubter Dateityp, bitte nur JPG, JPEG, PNG & GIF-Dateien hochladen.";
-                        break;
-                      case 3001:
-                        echo "<strong>Löschen nicht möglich!</strong> Es wurden noch keine Bilddateien hochgeladen.";
-                        break;
-                      default:
-                        echo "<strong>Upload nicht möglich</strong> Es ist ein unbekannter Fehler aufgetreten.";
-                  }
-                  echo "</div>";
+                  print Message::forError($_GET["error"]);
               } else if (isset($_GET["upload"])) {
-                  echo "<div class='alert alert-success alert-message'>Datei wurde erfolgreich hochgeladen!</div>";
+                  print Message::success_upload();
               } else if (isset($_GET["delete"])) {
-                  echo "<div class='alert alert-success alert-message'>Alle Bilder wurden erfolgreich gelöscht!</div>";
+                  print Message::success_delete();
               }
             ?>
             <div class="panel panel-default">
