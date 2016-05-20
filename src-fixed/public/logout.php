@@ -7,6 +7,9 @@
     setcookie(session_name(), "", time()-42000, "/");
   }
 
+  // remove all session variables
+  session_unset();
+
   // destroy serverside session data
   session_destroy();
 

@@ -18,7 +18,7 @@ diff -Naur src-vuln/public/dashboard.php src-fixed/public/dashboard.php
                                  <button class="btn btn-danger" type="submit" name="submit" id="btn-delete">
                                      <i class="fa fa-btn fa-trash"></i>Alle löschen
 diff -Naur src-vuln/public/delete.php src-fixed/public/delete.php
---- src-vuln/public/delete.php	2016-05-19 13:29:35.840721510 +0200
+--- src-vuln/public/delete.php	2016-05-19 20:42:56.126662514 +0200
 +++ src-fixed/public/delete.php	2016-05-19 15:01:03.046168561 +0200
 @@ -1,6 +1,15 @@
  <?php
