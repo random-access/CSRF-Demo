@@ -4,6 +4,12 @@
     // start session
     session_start();
 
+    // if already logged in, redirect to dashboard
+    if (isset($_SESSION["login"]) && $_SESSION["status"] == "loggedin") {
+        header("Location: dashboard.php");
+        exit;
+    }
+
     // either password or user field was empty
     if (empty($_POST["user"]) && empty($_POST["password"])) {
         header("Location: index.php?error=1001");
@@ -34,7 +40,7 @@
     if ($query->fetch() && password_verify($password, $hash)) {
       // correct password - redirect to welcome.php
       $_SESSION["user"] = $user;
-      $_SESSION["login"] = "ok";
+      $_SESSION["status"] = "loggedin";
       $conn->close();
       header("Location: dashboard.php");
     } else {

@@ -3,7 +3,7 @@
   <?php
       session_start();
 
-      if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
+      if (isset($_SESSION["status"]) && $_SESSION["status"] == "loggedin") {
           header("Location: dashboard.php");
           exit;
       }

@@ -5,7 +5,7 @@
     session_start();
 
     // if already logged in, redirect to dashboard
-    if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
+    if (isset($_SESSION["login"]) && $_SESSION["status"] == "loggedin") {
         header("Location: dashboard.php");
         exit;
     }
@@ -60,7 +60,7 @@
 
       // correct password - redirect to welcome.php
       $_SESSION["user"] = $user;
-      $_SESSION["login"] = "ok";
+      $_SESSION["status"] = "loggedin";
       $conn->close();
       header("Location: dashboard.php");
     } else {

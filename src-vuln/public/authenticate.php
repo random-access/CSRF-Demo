@@ -4,7 +4,7 @@
     session_start();
 
     // redirect to login page if no authenticated user
-    if (!(isset($_SESSION["login"]) && $_SESSION["login"] == "ok")) {
+    if (!isset($_SESSION["status"]) || !$_SESSION["status"] == "loggedin") {
         header("Location: index.php");
         exit;
     }

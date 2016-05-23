@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html lang="de">
+
+  <?php
+      session_start();
+
+      if (isset($_SESSION["status"]) && $_SESSION["status"] == "loggedin") {
+          header("Location: dashboard.php");
+          exit;
+      }
+  ?>
+
   <?php include 'template/head.php';?>
 
   <body>
