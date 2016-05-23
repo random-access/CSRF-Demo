@@ -1,8 +1,21 @@
 <?php
     require("../config.php");
 
-    // start session
+    // fetch presession
     session_start();
+
+    // if already logged in, redirect to dashboard
+    if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
+        header("Location: dashboard.php");
+        exit;
+    }
+
+    // test if presession CSRF token is valid, redirect to login page if not
+    if (!isset($_POST["presession_csrf_token"]) || $_POST["presession_csrf_token"] !== $_SESSION["presession_csrf_token"]) {
+        error_log("Presession CSRF token not matching");
+        header("Location: index.php?error=1004");
+        exit;
+    }
 
     // either password or user field was empty
     if (empty($_POST["user"]) && empty($_POST["password"])) {
@@ -32,6 +45,15 @@
 
     // verify password
     if ($query->fetch() && password_verify($password, $hash)) {
+
+      // unset presession cookie on client
+      if (isset($_COOKIE[session_name()])) {
+        setcookie(session_name(), "", time()-42000, "/");
+      }
+
+      // remove all presession variables & destroy old session
+      session_regenerate_id(true);
+
       // generate CSRF token and add it to session
       $csrf_token = base64_encode(openssl_random_pseudo_bytes(32));
       $_SESSION['csrf_token']=$csrf_token;

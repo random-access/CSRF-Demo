@@ -1,5 +1,18 @@
 <!DOCTYPE html>
 <html lang="de">
+  <?php
+      session_start();
+
+      if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
+          header("Location: dashboard.php");
+          exit;
+      }
+
+      $presession_csrf_token = base64_encode(openssl_random_pseudo_bytes(32));
+      $_SESSION['status']="anonymous";
+      $_SESSION['presession_csrf_token']=$presession_csrf_token;
+  ?>
+
   <?php include 'template/head.php';?>
 
   <body>
@@ -20,6 +33,7 @@
                   </div>
                   <div class="panel-body">
                       <form method="POST" action="login.php" class="form-horizontal">
+                          <input type="hidden" name="presession_csrf_token" value=<?php echo($_SESSION['presession_csrf_token']) ?> />
                           <!-- User name -->
                           <div class="form-group ">
                               <label class="col-md-4 control-label">Benutzername</label>
