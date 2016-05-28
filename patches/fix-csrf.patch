@@ -1,5 +1,5 @@
 diff -Naur src-vuln/public/dashboard.php src-fixed/public/dashboard.php
---- src-vuln/public/dashboard.php	2016-05-19 15:01:55.482603246 +0200
+--- src-vuln/public/dashboard.php	2016-05-28 03:05:19.313177850 +0200
 +++ src-fixed/public/dashboard.php	2016-05-19 15:01:39.334469383 +0200
 @@ -28,6 +28,7 @@
  
