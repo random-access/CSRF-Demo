@@ -1,5 +1,8 @@
 <?php
-    require("../config.php");
+
+    // fetch current session
+    session_start();
+
     require("authenticate.php");
 
     // fetch user and password data
@@ -23,6 +26,7 @@
     $password_hashed = password_hash($password, PASSWORD_BCRYPT);
 
     // Create DB connection
+    require("../config.php");
     $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 
     // prepare statement for fetching password

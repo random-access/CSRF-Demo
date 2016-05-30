@@ -1,11 +1,10 @@
 <?php
-    require("../config.php");
 
     // start session
     session_start();
 
     // if already logged in, redirect to dashboard
-    if (isset($_SESSION["login"]) && $_SESSION["status"] == "loggedin") {
+    if (isset($_SESSION["status"]) && $_SESSION["status"] == "loggedin") {
         header("Location: dashboard.php");
         exit;
     }
@@ -20,6 +19,7 @@
     $password = $_POST["password"];
 
     // Create DB connection
+    require("../config.php");
     $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 
     // prepare statement for fetching password

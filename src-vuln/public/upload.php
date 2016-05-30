@@ -1,4 +1,8 @@
 <?php
+
+    // fetch current session
+    session_start();
+
     require("authenticate.php");
 
     // create upload folder (uploads/[username]) if not existing

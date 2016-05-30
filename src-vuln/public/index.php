@@ -5,7 +5,8 @@
       session_start();
 
       if (isset($_SESSION["status"]) && $_SESSION["status"] == "loggedin") {
-          header("Location: dashboard.php");
+          $error = isset($_GET["error"]) ? "?error=" . $_GET["error"] : "";
+          header("Location: dashboard.php" . $error);
           exit;
       }
   ?>

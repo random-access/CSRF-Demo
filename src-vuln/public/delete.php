@@ -1,4 +1,7 @@
 <?php
+    // fetch current session
+    session_start();
+
     require("authenticate.php");
 
     // get user dir

@@ -1,13 +1,10 @@
 <?php
-    require("../config.php");
-    require("authenticate.php");
 
-    // test if CSRF token is valid, redirect to login page if not
-    if (!isset($_POST["csrf_token"]) || $_POST["csrf_token"] !== $_SESSION["csrf_token"]) {
-        error_log("CSRF token not matching");
-        header("Location: index.php?error=1004");
-        exit;
-    }
+    // fetch current session
+    session_start();
+
+    require("csrf-check.php");
+    require("authenticate.php");
 
     // fetch user and password data
     $user = $_SESSION["user"];
@@ -30,6 +27,7 @@
     $password_hashed = password_hash($password, PASSWORD_BCRYPT);
 
     // Create DB connection
+    require("../config.php");
     $conn = new mysqli(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 
     // prepare statement for fetching password

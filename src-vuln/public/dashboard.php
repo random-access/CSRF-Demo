@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="de">
+
+    <?php session_start();?>
     <?php require("authenticate.php");?>
+
     <?php include 'template/head.php';?>
 
     <body>

@@ -1,30 +1,33 @@
-diff -Naur src-vuln/public/dashboard.php src-fixed/public/dashboard.php
---- src-vuln/public/dashboard.php	2016-05-28 03:05:19.313177850 +0200
-+++ src-fixed/public/dashboard.php	2016-05-19 15:01:39.334469383 +0200
-@@ -28,6 +28,7 @@
- 
-                         <!-- Form for uploading pics -->
-                         <form action="upload.php" method="POST" enctype="multipart/form-data">
-+                            <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
-                             <div class="col-md-6">
-                                 <label class="button control-label" style="height:1em">
-                                     <span class="btn btn-default btn-file">
-@@ -46,6 +47,7 @@
- 
-                         <!-- Form for deleting all pics-->
-                         <form method="POST" action="delete.php" class="form-horizontal">
-+                            <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
-                             <div class="col-md-2">
-                                 <button class="btn btn-danger" type="submit" name="submit" id="btn-delete">
-                                     <i class="fa fa-btn fa-trash"></i>Alle löschen
-diff -Naur src-vuln/public/delete.php src-fixed/public/delete.php
---- src-vuln/public/delete.php	2016-05-19 20:42:56.126662514 +0200
-+++ src-fixed/public/delete.php	2016-05-19 15:01:03.046168561 +0200
-@@ -1,6 +1,15 @@
- <?php
-     require("authenticate.php");
- 
-+    session_start();
+diff -Naur src-vuln/public/csrf-check.php src-fixed/public/csrf-check.php
+--- src-vuln/public/csrf-check.php	1970-01-01 01:00:00.000000000 +0100
++++ src-fixed/public/csrf-check.php	2016-05-30 14:14:30.597607876 +0200
+@@ -0,0 +1,35 @@
++<?php
++
++    if(!isset($_SESSION)) {
++        session_start();
++    }
++
++    $site = "http://".$_SERVER["SERVER_NAME"];
++    if (isset($_SERVER["HTTP_ORIGIN"])) {
++        $origin = $_SERVER["HTTP_ORIGIN"];
++        if (strpos($site, $origin) !== 0) {
++            error_log("Invalid origin header: " . $origin);
++            header("Location: index.php?error=1004");
++            exit;
++        }
++    } else if (isset($_SERVER["HTTP_REFERER"])) {
++        $referer = $_SERVER["HTTP_REFERER"];
++        if (strpos($site, $referer) !== 0) {
++            error_log("Origin not set and invalid referer header: " . $referer);
++            header("Location: index.php?error=1004");
++            exit;
++        }
++    } else {
++        error_log("Neither origin nor referer set.");
++        header("Location: index.php?error=1004");
++        exit;
++    }
 +
 +    // test if CSRF token is valid, redirect to login page if not
 +    if (!isset($_POST["csrf_token"]) || $_POST["csrf_token"] !== $_SESSION["csrf_token"]) {
@@ -33,22 +36,41 @@ diff -Naur src-vuln/public/delete.php src-fixed/public/delete.php
 +        exit;
 +    }
 +
-     // get user dir
-     $target_dir ="uploads/" . $_SESSION["user"];
++ ?>
+diff -Naur src-vuln/public/dashboard.php src-fixed/public/dashboard.php
+--- src-vuln/public/dashboard.php	2016-05-30 14:38:01.285621946 +0200
++++ src-fixed/public/dashboard.php	2016-05-30 14:06:12.229414943 +0200
+@@ -31,6 +31,7 @@
  
+                         <!-- Form for uploading pics -->
+                         <form action="upload.php" method="POST" enctype="multipart/form-data">
++                            <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
+                             <div class="col-md-6">
+                                 <label class="button control-label" style="height:1em">
+                                     <span class="btn btn-default btn-file">
+@@ -49,6 +50,7 @@
+ 
+                         <!-- Form for deleting all pics-->
+                         <form method="POST" action="delete.php" class="form-horizontal">
++                            <input type="hidden" name="csrf_token" value=<?php echo($_SESSION['csrf_token']) ?> />
+                             <div class="col-md-2">
+                                 <button class="btn btn-danger" type="submit" name="submit" id="btn-delete">
+                                     <i class="fa fa-btn fa-trash"></i>Alle löschen
+diff -Naur src-vuln/public/delete.php src-fixed/public/delete.php
+--- src-vuln/public/delete.php	2016-05-30 14:38:57.178089712 +0200
++++ src-fixed/public/delete.php	2016-05-30 14:26:40.359897161 +0200
+@@ -2,6 +2,7 @@
+     // fetch current session
+     session_start();
+ 
++    require("csrf-check.php");
+     require("authenticate.php");
+ 
+     // get user dir
 diff -Naur src-vuln/public/edit-profile.php src-fixed/public/edit-profile.php
---- src-vuln/public/edit-profile.php	2016-05-19 13:58:33.595078122 +0200
-+++ src-fixed/public/edit-profile.php	2016-05-19 14:28:33.813984121 +0200
-@@ -19,7 +19,7 @@
-                       print Message::success_update();
-                   }
-                 ?>
--                
-+
-                 <div class="panel panel-default">
-                     <div class="panel-heading">
-                        Profil bearbeiten
-@@ -27,6 +27,7 @@
+--- src-vuln/public/edit-profile.php	2016-05-30 14:55:19.243276523 +0200
++++ src-fixed/public/edit-profile.php	2016-05-30 14:55:19.239276485 +0200
+@@ -30,6 +30,7 @@
                      <div class="panel-body">
                          <div class="form-group row">
                              <form method="POST" action="update-profile.php" class="form-horizontal">
@@ -57,17 +79,10 @@ diff -Naur src-vuln/public/edit-profile.php src-fixed/public/edit-profile.php
                                      <div class="col-md-3 col-md-offset-1">
                                          <label class="control-label">Neues Passwort</label>
 diff -Naur src-vuln/public/index.php src-fixed/public/index.php
---- src-vuln/public/index.php	2016-05-23 13:09:07.092974730 +0200
-+++ src-fixed/public/index.php	2016-05-23 13:08:25.620800310 +0200
-@@ -1,6 +1,5 @@
- <!DOCTYPE html>
- <html lang="de">
--
-   <?php
-       session_start();
- 
-@@ -8,6 +7,10 @@
-           header("Location: dashboard.php");
+--- src-vuln/public/index.php	2016-05-30 14:47:02.930149006 +0200
++++ src-fixed/public/index.php	2016-05-30 14:47:01.158134211 +0200
+@@ -9,6 +9,10 @@
+           header("Location: dashboard.php" . $error);
            exit;
        }
 +
@@ -77,7 +92,7 @@ diff -Naur src-vuln/public/index.php src-fixed/public/index.php
    ?>
  
    <?php include 'template/head.php';?>
-@@ -30,6 +33,7 @@
+@@ -31,6 +35,7 @@
                    </div>
                    <div class="panel-body">
                        <form method="POST" action="login.php" class="form-horizontal">
@@ -86,18 +101,17 @@ diff -Naur src-vuln/public/index.php src-fixed/public/index.php
                            <div class="form-group ">
                                <label class="col-md-4 control-label">Benutzername</label>
 diff -Naur src-vuln/public/login.php src-fixed/public/login.php
---- src-vuln/public/login.php	2016-05-23 13:07:21.228529495 +0200
-+++ src-fixed/public/login.php	2016-05-23 13:07:19.236521119 +0200
-@@ -1,7 +1,7 @@
+--- src-vuln/public/login.php	2016-05-30 14:41:23.879316638 +0200
++++ src-fixed/public/login.php	2016-05-30 14:41:06.359170164 +0200
+@@ -1,6 +1,6 @@
  <?php
-     require("../config.php");
  
 -    // start session
 +    // fetch presession
      session_start();
  
      // if already logged in, redirect to dashboard
-@@ -10,6 +10,13 @@
+@@ -9,6 +9,13 @@
          exit;
      }
  
@@ -145,36 +159,24 @@ diff -Naur src-vuln/public/Message.php src-fixed/public/Message.php
                  /* Error messages for upload */
                  case 2001:
 diff -Naur src-vuln/public/update-profile.php src-fixed/public/update-profile.php
---- src-vuln/public/update-profile.php	2016-05-19 14:44:05.193728002 +0200
-+++ src-fixed/public/update-profile.php	2016-05-19 14:43:54.885642468 +0200
-@@ -2,6 +2,13 @@
-     require("../config.php");
+--- src-vuln/public/update-profile.php	2016-05-30 14:42:11.919718200 +0200
++++ src-fixed/public/update-profile.php	2016-05-30 14:48:22.187020451 +0200
+@@ -3,6 +3,7 @@
+     // fetch current session
+     session_start();
+ 
++    require("csrf-check.php");
      require("authenticate.php");
  
-+    // test if CSRF token is valid, redirect to login page if not
-+    if (!isset($_POST["csrf_token"]) || $_POST["csrf_token"] !== $_SESSION["csrf_token"]) {
-+        error_log("CSRF token not matching");
-+        header("Location: index.php?error=1004");
-+        exit;
-+    }
-+
      // fetch user and password data
-     $user = $_SESSION["user"];
-     $password = $_POST["password"];
 diff -Naur src-vuln/public/upload.php src-fixed/public/upload.php
---- src-vuln/public/upload.php	2016-05-19 13:28:18.000076508 +0200
-+++ src-fixed/public/upload.php	2016-05-19 14:33:21.796383449 +0200
-@@ -1,6 +1,13 @@
- <?php
+--- src-vuln/public/upload.php	2016-05-30 14:42:45.103995527 +0200
++++ src-fixed/public/upload.php	2016-05-30 14:42:47.632016652 +0200
+@@ -3,6 +3,7 @@
+     // fetch current session
+     session_start();
+ 
++    require("csrf-check.php");
      require("authenticate.php");
  
-+    // test if CSRF token is valid, redirect to login page if not
-+    if (!isset($_POST["csrf_token"]) || $_POST["csrf_token"] !== $_SESSION["csrf_token"]) {
-+        error_log("CSRF token not matching");
-+        header("Location: index.php?error=1004");
-+        exit;
-+    }
-+
      // create upload folder (uploads/[username]) if not existing
-     $target_dir = "uploads/" . $_SESSION["user"];
-     if (!file_exists($target_dir)) {

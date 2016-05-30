@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
+
+    <?php session_start();?>
+
     <?php require("authenticate.php");?>
     <?php include 'template/head.php';?>
 
@@ -19,7 +22,7 @@
                       print Message::success_update();
                   }
                 ?>
-                
+
                 <div class="panel panel-default">
                     <div class="panel-heading">
                        Profil bearbeiten
